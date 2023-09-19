@@ -43,7 +43,7 @@ class {{ class }}
      */
     public function update({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
     {
-         return $user->can(sprintf("%s.update", $this->permissions));
+         return $user->can(sprintf("%s.edit", $this->permissions));
     }
 
     /**
