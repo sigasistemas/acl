@@ -16,6 +16,19 @@ You can install the package via composer:
 ```bash
 composer require callcocam/acl
 ```
+Execute the command
+
+```bash
+php artisan  app:acl-install
+``` 
+
+Run the command again
+
+```bash
+php artisan  app:acl-install
+```
+
+OR
 
 You can publish and run the migrations with:
 
@@ -36,19 +49,40 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="acl-views"
 ```
 
-This is the contents of the published config file:
+Remember to install the plugin on Your Provider
 
-```php
-return [
-];
+```
+use Callcocam\Acl\AclPlugin;
+
+return $panel
+...
+->plugin(new AclPlugin())
+...
+``
+
+You can also release the User Resource by going through paramentar
+```
+use Callcocam\Acl\AclPlugin;
+
+return $panel
+...
+->plugin(new AclPlugin(userUserResources:true))
+...
+``
+
+
+Command to recreate or update the permissions base
+
+```bash
+php artisan app:acl-generate-permissions
 ```
 
-## Usage
+Command to create configured policies
 
-```php
-$acl = new Callcocam\Acl();
-echo $acl->echoPhrase('Hello, Callcocam!');
+```bash
+php artisan app:acl-policy
 ```
+
 
 ## Testing
 
