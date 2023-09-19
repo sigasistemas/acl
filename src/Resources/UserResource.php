@@ -85,12 +85,30 @@ class UserResource extends Resource
     
     public static function getRelations(): array
     {
-        return [
-            AddressesRelationManager::class,
-            ContactsRelationManager::class,
-            DocumentsRelationManager::class,
-            SocialsRelationManager::class,
-        ];
+
+        $relations = [];
+
+        if(class_exists('App\\Models\\Callcocam\\Address')){
+
+            $relations[] = AddressesRelationManager::class;
+        }
+
+        if(class_exists('App\\Models\\Callcocam\\Contact')){
+
+            $relations[] = ContactsRelationManager::class;
+        }
+
+        if(class_exists('App\\Models\\Callcocam\\Document')){
+
+            $relations[] = DocumentsRelationManager::class;
+        }
+
+        if(class_exists('App\\Models\\Callcocam\\Social')){
+
+            $relations[] = SocialsRelationManager::class;
+        }
+
+        return $relations;
     }
     
     public static function getPages(): array
