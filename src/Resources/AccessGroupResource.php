@@ -46,10 +46,13 @@ class AccessGroupResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->columnSpanFull()
-                    ->label('Nome do grupo no singular')
+                    ->label(__('acl::access_group.form.name.label'))
+                    ->placeholder(__('acl::access_group.form.name.placeholder'))
                     ->maxLength(255),
                 static::getStatusFormRadioField(),
                 Forms\Components\Textarea::make('description')
+                    ->label(__('acl::access_group.form.description.label'))
+                    ->placeholder(__('acl::access_group.form.description.placeholder'))
                     ->maxLength(65535)
                     ->columnSpanFull(),
             ])->columns(12);
@@ -60,7 +63,7 @@ class AccessGroupResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nome do grupo')
+                    ->label(__('acl::access_group.table.name'))
                     ->searchable(),
                 ...static::getFieldDatesFormForTable(),
             ])
