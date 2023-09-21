@@ -8,6 +8,8 @@
 
 namespace App\Models\Callcocam;
 
+use App\Core\Models\Concerns\Sluggable\HasSlug;
+use App\Core\Models\Concerns\Sluggable\SlugOptions;
 use Callcocam\Acl\Models\AbstractModel as ModelsAbstractModel;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 
@@ -18,4 +20,5 @@ class AbstractModel extends ModelsAbstractModel
      */
     // use HasUlids;
     //    
+ 
 }
