@@ -53,6 +53,7 @@ trait HasStatusColumn
             Radio::make(static::getStatusColumn())
                 ->label(static::getStatusColumnLabel())
                 ->options(static::getStatuses()) 
+                ->inline()
                 ->default('draft')
                 ->columnSpanFull()
                 ->required($required),
