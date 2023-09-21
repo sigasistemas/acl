@@ -38,8 +38,7 @@ class CreateRole extends CreateRecord
                         'no-access' => 'Sem Acesso',
                     ])
                     ->inline(),
-                static::getStatusFormRadioField()
-                    ->inline(),
+                static::getStatusFormRadioField() ,
                 Textarea::make('description')
                     ->label('Descrição')
                     ->maxLength(65535)
