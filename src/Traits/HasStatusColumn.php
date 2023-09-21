@@ -52,8 +52,7 @@ trait HasStatusColumn
         return Fieldset::make()->schema([
             Radio::make(static::getStatusColumn())
                 ->label(static::getStatusColumnLabel())
-                ->options(static::getStatuses())
-                ->inline()
+                ->options(static::getStatuses()) 
                 ->default('draft')
                 ->columnSpanFull()
                 ->required($required),
