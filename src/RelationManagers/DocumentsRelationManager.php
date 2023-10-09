@@ -1,17 +1,21 @@
 <?php
+
 /**
-* Created by Claudio Campos.
-* User: callcocam@gmail.com, contato@sigasmart.com.br
-* https://www.sigasmart.com.br
-*/
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com, contato@sigasmart.com.br
+ * https://www.sigasmart.com.br
+ */
+
 namespace Callcocam\Acl\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Leandrocfe\FilamentPtbrFormFields\Document;
 
 class DocumentsRelationManager extends RelationManager
@@ -22,31 +26,39 @@ class DocumentsRelationManager extends RelationManager
 
     protected static ?string $icon =  'fas-id-badge';
 
+
+    public static function getIcon(Model $ownerRecord, string $pageClass): ?string
+    {
+        return config('acl.resources.documents.icon', static::$icon);
+    }
+
+    public static function getIconPosition(Model $ownerRecord, string $pageClass): IconPosition
+    {
+        return config('acl.resources.documents.iconPosition', static::$iconPosition);
+    }
+
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return config('acl.resources.documents.badge', static::$badge);
+    }
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return  config('acl.resources.documents.title',   parent::getTitle($ownerRecord, $pageClass));
+    }
+
     public function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('name')
-                    ->options([
-                        'CPF' => 'CPF',
-                        'CNPJ' => 'CNPJ',
-                        'RG' => 'RG',
-                        'IE' => 'IE',
-                        'IM' => 'IM',
-                        'CNH' => 'CNH',
-                        'passport' => 'Passaporte',
-                        'title' => 'Titulo de Eleitor',
-                        'reservist' => 'Reservista',
-                        'birth' => 'Certidão de Nascimento',
-                        'marriage' => 'Certidão de Casamento',
-                        'divorce' => 'Certidão de Divórcio',
-                        'death' => 'Certidão de Óbito',
-                        'other' => 'Outros',
-                    ])->reactive()
-                    ->label('Tipo do Documento')
-                    ->required(),
+                    ->options(config('acl.resources.documents.options', []))->reactive()
+                    ->label(__('acl::acl.forms.document.name.label'))
+                    ->placeholder(__('acl::acl.forms.document.name.placeholder'))
+                    ->hidden(config('acl.resources.documents.hidden', false))
+                    ->required(config('acl.resources.documents.required', true)),
                 Document::make('description')
-                    ->mask(function (Get $get ) {
+                    ->mask(function (Get $get) {
                         $type = strtolower($get('name'));
                         switch ($type):
                             case 'cpf':
@@ -63,38 +75,50 @@ class DocumentsRelationManager extends RelationManager
                                 break;
                         endswitch;
                     })
-                    ->label('Valor do Documento')
-                    ->required()
-                    ->maxLength(255),
+                    ->label(__('acl::acl.forms.document.description.label'))
+                    ->placeholder(__('acl::acl.forms.document.description.placeholder'))
+                    ->required(config('acl.resources.documents.required', true))
+                    ->hidden(config('acl.resources.documents.hidden', false))
+                    ->maxLength(config('acl.resources.documents.maxlength', 255)),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->modelLabel('Documento')
-            ->pluralModelLabel('Documentos')
-            ->recordTitleAttribute('name')
+            ->modelLabel(__('acl::acl.forms.document.modelLabel'))
+            ->pluralModelLabel(__('acl::acl.forms.document.pluralModelLabel'))
+            ->recordTitleAttribute(config('acl.resources.documents.title', 'name'))
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
             ])
-            ->filters([
-                //
-            ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            ->filters(config('acl.resources.documents.filters', []))
+            ->headerActions(config(
+                'acl.resources.documents.header_actions',
+                [
+                    Tables\Actions\CreateAction::make(),
+                ]
+            ))
+            ->actions(config(
+                'acl.resources.documents.actions',
+                [
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]
+            ))
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\BulkActionGroup::make(config(
+                    'acl.resources.documents.bulk_actions',
+                    [
+                        Tables\Actions\DeleteBulkAction::make(),
+                    ]
+                )),
             ])
-            ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
-            ]);
+            ->emptyStateActions(config(
+                'acl.resources.documents.emptyState',
+                [
+                    Tables\Actions\CreateAction::make(),
+                ]
+            ));
     }
 }

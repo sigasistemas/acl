@@ -7,15 +7,13 @@
  */
 
 namespace Callcocam\Acl\Models;
-
-use App\Models\Callcocam\AbstractModel;
+ 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Callcocam\Acl\Contracts\IAccessGroup;
-use Callcocam\Acl\Contracts\IPermission;
+use Callcocam\Acl\Contracts\IAccessGroup; 
 use Database\Factories\Callcocam\Acl\AccessGroupFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AccessGroup extends AbstractModel implements IAccessGroup
+class AccessGroup extends AbstractAclModel implements IAccessGroup
 {
     use HasFactory;
 

@@ -34,69 +34,37 @@ class CreateUser extends CreateRecord
         return $form->schema([
             Section::make()->schema([
                 Select::make('type')
-                    ->label('Tipo de Usuário')
-                    ->options([
+                    ->label(__('acl::acl.forms.user.type.label'))
+                    ->options(config('acl.resources.user.type.options', [
                         'user' => 'User',
-                        'rpps' => 'Rpps',
-                        'councilors' => 'Consiliors',
-                    ])
-                    ->columnSpan([
+                        'client' => 'Client',
+                    ]))
+                    ->columnSpan(config('acl.resources.user.type.columnSpan', [
                         'md' => 2,
-                    ])
-                    ->required(),
+                    ]))
+                    ->required(config('acl.resources.user.type.required', true)),
                 TextInput::make('name')
-                    ->label('Nome Completo')
-                    ->columnSpan([
+                    ->label(__('acl::acl.forms.user.name.label'))
+                    ->placeholder(__('acl::acl.forms.user.name.placeholder'))
+                    ->columnSpan(config('acl.resources.user.name.columnSpan', [
                         'md' => 5,
-                    ])
-                    ->required()
-                    ->maxLength(255),
+                    ]))
+                    ->required(config('acl.resources.user.name.required', true))
+                    ->maxLength(config('acl.resources.user.name.maxLength', 255)),
 
                 TextInput::make('email')
-                    ->label('Seu Melhor E-mail')
-                    ->columnSpan([
+                    ->label(__('acl::acl.forms.user.email.label'))
+                    ->placeholder(__('acl::acl.forms.user.email.placeholder'))
+                    ->columnSpan(config('acl.resources.user.email.columnSpan', [
                         'md' => 5,
-                    ])
+                    ]))
                     ->email()
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('office')
-                    ->label('Cargo')
-                    ->columnSpan([
-                        'md' => 4,
-                    ])
-                    ->maxLength(255),
-                DatePicker::make('date_birth')
-                    ->label('Data de Nascimento')
-                    ->columnSpan([
-                        'md' => 3,
-                    ]),
-                Fieldset::make('Gênero')
-                    ->schema(
-                        [
-                            Radio::make('genre')
-                                ->label('Gênero')
-                                ->inline()
-                                ->options([
-                                    'masculino' => 'Masculino',
-                                    'feminino' => 'Feminino',
-                                    'outros' => 'Outros',
-                                ])
-                                ->columnSpan([
-                                    'md' => 5,
-                                ])
-                        ]
-                    )->columnSpan([
-                        'md' => 5,
-                    ]),
-                Toggle::make('email_verified')
-                    ->label('E-mail Verificado')
-                    ->columnSpan([
-                        'md' => 3,
-                    ]),
+                    ->required(config('acl.resources.user.email.required', true))
+                    ->maxLength(config('acl.resources.user.email.maxLength', 255)),
+
                 static::getStatusFormRadioField()
                     ->columnSpanFull(),
-                Fieldset::make('Dados de acesso')->schema([
+                Fieldset::make(__('acl::acl.forms.user.data.access.label'))->schema([
                     ...static::getFieldPasswordForCreateForm()
                 ])->columns(2),
                 static::getEditorFormField()

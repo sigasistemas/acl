@@ -4,12 +4,11 @@
 * User: callcocam@gmail.com, contato@sigasmart.com.br
 * https://www.sigasmart.com.br
 */
- namespace Callcocam\Acl\Models;
+ namespace Callcocam\Acl\Models; 
 
-use App\Models\Callcocam\AbstractModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory; 
 
-class Image extends AbstractModel
+class Image extends AbstractAclModel
 {
     use HasFactory;
 

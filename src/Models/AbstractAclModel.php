@@ -11,7 +11,7 @@ namespace Callcocam\Acl\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AbstractModel extends Model
+class AbstractAclModel extends Model
 {
     use SoftDeletes;
 

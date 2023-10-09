@@ -7,8 +7,7 @@
  */
 
 namespace Callcocam\Acl\Models;
-
-use App\Models\Callcocam\AbstractModel;
+ 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany as BelongsToManyAlias;
 use Callcocam\Acl\Concerns\RefreshesPermissionCache;
@@ -16,7 +15,7 @@ use Callcocam\Acl\Contracts\IPermission;
 use Database\Factories\Callcocam\Acl\PermissionFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class Permission extends AbstractModel implements IPermission
+class Permission extends AbstractAclModel implements IPermission
 {
     use RefreshesPermissionCache, HasFactory;
 
@@ -36,12 +35,12 @@ class Permission extends AbstractModel implements IPermission
      */
     public function roles(): BelongsToManyAlias
     {
-        return $this->belongsToMany(config('acl.models.role'))->withTimestamps();
+        return $this->belongsToMany(config('acl.models.role', Role::class))->withTimestamps();
     }
 
     public function access_groups()
     {
-        return $this->belongsTo(config('acl.models.access_group'), 'access_group_id');
+        return $this->belongsTo(config('acl.models.access_group', AccessGroup::class), 'access_group_id');
     }
 
     protected function slugTo()

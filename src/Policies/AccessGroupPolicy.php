@@ -5,10 +5,9 @@
  * https://www.sigasmart.com.br
  */
 namespace Callcocam\Acl\Policies;
-
-use App\Models\Callcocam\AccessGroup;
+ 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Callcocam\Acl\Contracts\IAccessGroup; 
 
 class AccessGroupPolicy
 {
@@ -25,7 +24,7 @@ class AccessGroupPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, AccessGroup $accessGroup): bool
+    public function view(User $user, IAccessGroup $accessGroup): bool
     {
         return $user->can(sprintf("%s.view", $this->permissions));
     }
@@ -41,7 +40,7 @@ class AccessGroupPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, AccessGroup $accessGroup): bool
+    public function update(User $user, IAccessGroup $accessGroup): bool
     {
          return $user->can(sprintf("%s.update", $this->permissions));
     }
@@ -49,7 +48,7 @@ class AccessGroupPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, AccessGroup $accessGroup): bool
+    public function delete(User $user, IAccessGroup $accessGroup): bool
     {
          return $user->can(sprintf("%s.delete", $this->permissions));
     }
@@ -57,7 +56,7 @@ class AccessGroupPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, AccessGroup $accessGroup): bool
+    public function restore(User $user, IAccessGroup $accessGroup): bool
     {
        return $user->can(sprintf("%s.restore", $this->permissions));
     }
@@ -65,7 +64,7 @@ class AccessGroupPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, AccessGroup $accessGroup): bool
+    public function forceDelete(User $user, IAccessGroup $accessGroup): bool
     {
         return $user->can(sprintf("%s.forceDelete", $this->permissions));
     }

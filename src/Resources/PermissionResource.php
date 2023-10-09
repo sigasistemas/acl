@@ -8,8 +8,7 @@
 
 namespace Callcocam\Acl\Resources;
 
-use App\Models\Callcocam\AccessGroup;
-use App\Models\Callcocam\Permission;
+use Callcocam\Acl\Models\AccessGroup;
 use Callcocam\Acl\Resources\PermissionResource\Pages;
 use Callcocam\Acl\Resources\PermissionResource\RelationManagers;
 use Callcocam\Acl\Traits\HasDatesFormForTableColums;
@@ -24,12 +23,13 @@ use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class PermissionResource extends Resource
 {
     use HasStatusColumn, HasDatesFormForTableColums;
 
-    protected static ?string $model = Permission::class;
+    // protected static ?string $model = Permission::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-key';
 
@@ -41,46 +41,81 @@ class PermissionResource extends Resource
 
     protected static ?int $navigationSort = 5;
 
+    public static function getModel(): string
+    {
+        return config('acl.models.permission', Permission::class);
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return config('acl.navigation.permission.group', static::$navigationGroup);
+    }
+
+    public static function getNavigationIcon(): ?string
+    {
+        return config('acl.navigation.permission.icon', static::$navigationIcon);
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return static::$navigationLabel ?? config('acl.navigation.permission.label', Str::headline(static::getPluralModelLabel()));
+    }
+
+
+    public static function getNavigationBadge(): ?string
+    {
+        return config('acl.navigation.permission.badge', null);
+    }
+
+    /**
+     * @return string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | null
+     */
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return config('acl.navigation.permission.badge_color', null);
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return config('acl.navigation.permission.sort', static::$navigationSort);
+    }
+
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('access_group_id')
-                    ->label('Group')
-                    ->required()
-                    ->placeholder('Select Group')
-                    ->columnSpan(
-                        [
-                            'md' => 2
-                        ]
-                    )
+                    ->label(__('acl::acl.forms.permission.access_group_id.label'))
+                    ->required(config('acl.forms.permission.name.required', true))
+                    ->placeholder(__('acl::acl.forms.permission.access_group_id.placeholder'))
+                    ->columnSpan(config('acl.forms.permission.access_group_id.columnSpan', [
+                        'md' => 2,
+                    ]))
                     ->options(AccessGroup::query()->pluck('name', 'id')->toArray()),
                 Forms\Components\TextInput::make('name')
-                    ->columnSpan(
-                        [
-                            'md' => 4
-                        ]
-                    )
-                    ->label('Name da Permissão')
-                    ->required()
-
-                    ->maxLength(255),
+                    ->label(__('acl::acl.forms.permission.name.label'))
+                    ->placeholder(__('acl::acl.forms.permission.name.placeholder'))
+                    ->required(config('acl.forms.permission.name.required', true))
+                    ->columnSpan(config('acl.forms.permission.name.columnSpan', [
+                        'md' => 4,
+                    ]))
+                    ->maxLength(config('acl.forms.permission.name.maxLength', 255)),
                 Forms\Components\TextInput::make('slug')
-                    ->columnSpan(
-                        [
-                            'md' => 6
-                        ]
-                    )
-                    ->label('Permissão')
+                    ->columnSpan(config('acl.forms.permission.slug.columnSpan', [
+                        'md' => 6
+                    ]))
+                    ->label(__('acl::acl.forms.permission.slug.label'))
+                    ->placeholder(__('acl::acl.forms.permission.slug.placeholder'))
                     ->suffixAction(static::getGlobalRoutes())
-                    ->required()
-                    ->maxLength(255),
+                    ->required(config('acl.forms.permission.slug.required', true))
+                    ->maxLength(config('acl.forms.permission.slug.maxLength', 255)),
 
                 static::getStatusFormRadioField(),
                 Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
+                    ->label(__('acl::acl.forms.permission.description.label'))
+                    ->placeholder(__('acl::acl.forms.permission.description.placeholder'))
                     ->columnSpanFull(),
-
             ])->columns(12);
     }
 
@@ -89,13 +124,17 @@ class PermissionResource extends Resource
         return $table
             ->groups([
                 Group::make('access_groups.name')
-                    ->label('Group')
+                    ->label(__('acl::acl.permission.groups.access_groups.name')),
             ])
             ->columns([
                 Tables\Columns\TextColumn::make('access_groups.name')
-                    ->searchable(),
+                    ->label(__('acl::acl.columns.permission.access_groups'))
+                    ->sortable(config('acl.columns.permission.access_groups.name.sortable', true))
+                    ->searchable(config('acl.columns.permission.access_groups.name.searchable', true)),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->label(__('acl::acl.columns.permission.name'))
+                    ->sortable(config('acl.columns.permission.name.sortable', true))
+                    ->searchable(config('acl.columns.permission.name.searchable', true)),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
                 static::getStatusTableIconColumn(),

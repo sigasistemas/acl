@@ -12,8 +12,10 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class SocialsRelationManager extends RelationManager
 {
@@ -24,34 +26,38 @@ class SocialsRelationManager extends RelationManager
     protected static ?string $icon =  'fas-share-alt';
 
 
+    public static function getIcon(Model $ownerRecord, string $pageClass): ?string
+    {
+        return config('acl.resources.social.icon', static::$icon);
+    }
+
+    public static function getIconPosition(Model $ownerRecord, string $pageClass): IconPosition
+    {
+        return config('acl.resources.social.iconPosition', static::$iconPosition);
+    }
+
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return config('acl.resources.social.badge', static::$badge);
+    }
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return  config('acl.resources.social.title',   parent::getTitle($ownerRecord, $pageClass));
+    }
+
     public function form(Form $form): Form
     {
         return $form
             ->schema([
 
                 Forms\Components\Select::make('name')
-                    ->options([
-                        'facebook' => 'Facebook',
-                        'twitter' => 'Twitter',
-                        'instagram' => 'Instagram',
-                        'linkedin' => 'Linkedin',
-                        'youtube' => 'Youtube',
-                        'tiktok' => 'Tiktok',
-                        'telegram' => 'Telegram',
-                        'pinterest' => 'Pinterest',
-                        'flickr' => 'Flickr',
-                        'snapchat' => 'Snapchat',
-                        'reddit' => 'Reddit',
-                        'discord' => 'Discord',
-                        'spotify' => 'Spotify',
-                        'github' => 'Github',
-                        'blogger' => 'Blogger',
-                        'trello' => 'Trello',
-                        'slack' => 'Slack',
-                    ])
-                    ->required()
+                    ->options(config('acl.resources.social.options', []))
+                    ->required(config('acl.resources.social.required', true))
                     ->reactive()
-                    ->label('Tipo do Contato'),
+                    ->label(__('acl::acl.forms.social.name.label'))
+                    ->hidden(config('acl.resources.social.hidden', false))
+                    ->placeholder(__('acl::acl.forms.social.name.placeholder')),
                 Forms\Components\TextInput::make('description')
                     ->suffixIcon(function (Get $get) {
                         $type = $get('name');
@@ -112,8 +118,10 @@ class SocialsRelationManager extends RelationManager
                                 break;
                         endswitch;
                     })
-                    ->label('Contato')
-                    ->required(),
+                    ->label(__('acl::acl.forms.social.description.label'))
+                    ->placeholder(__('acl::acl.forms.social.description.placeholder'))
+                    ->hidden(config('acl.resources.social.hidden', false))
+                    ->required(config('acl.resources.social.required', true)),
 
             ]);
     }
@@ -121,29 +129,35 @@ class SocialsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->modelLabel('Redes Social')
-            ->pluralModelLabel('Redes Sociais')
+            ->modelLabel(__('acl::acl.forms.social.modelLabel'))
+            ->pluralModelLabel(__('acl::acl.forms.social.pluralModelLabel'))
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('acl::acl.forms.social.name.label'))
+                    ->searchable(),
             ])
-            ->filters([
+            ->filters(config('acl.resources.social.filters', [
                 //
-            ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            ]))
+            ->headerActions(
+                config('acl.resources.social.header_actions', [
+                    Tables\Actions\CreateAction::make(),
+                ])
+            )
+            ->actions(
+                config('acl.resources.social.actions', [
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
+            )
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make(config('acl.resources.social.bulk_actions', [
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ])),
             ])
-            ->emptyStateActions([
+            ->emptyStateActions(config('acl.resources.social.emptyState', [
                 Tables\Actions\CreateAction::make(),
-            ]);
+            ]));
     }
 }

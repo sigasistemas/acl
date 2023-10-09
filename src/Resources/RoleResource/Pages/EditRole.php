@@ -31,15 +31,17 @@ class EditRole extends EditRecord
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->label('Nome do Accesso')
-                    ->required()
-                    ->maxLength(255),
+                    ->label(__('acl::acl.forms.role.name.label'))
+                    ->placeholder(__('acl::acl.forms.role.name.placeholder'))
+                    ->required(config('acl.forms.role.name.required', true))
+                    ->maxLength(config('acl.forms.role.name.maxlength', 255)),
                 TextInput::make('slug')
-                    ->label('Slug do Accesso')
-                    ->readOnly()
-                    ->required()
-                    ->maxLength(255),
-                Fieldset::make('Informações do Accesso')
+                    ->label(__('acl::acl.forms.role.slug.label'))
+                    ->placeholder(__('acl::acl.forms.role.slug.placeholder'))
+                    ->readOnly(config('acl.forms.role.slug.readonly', true))
+                    ->required(config('acl.forms.role.slug.required', true))
+                    ->maxLength(config('acl.forms.role.slug.maxlength', 255)),
+                Fieldset::make(__('acl::acl.forms.role.fieldset.label'))
                     ->columnSpanFull()
                     ->schema([
                         CheckboxList::make('permissions')
@@ -48,18 +50,18 @@ class EditRole extends EditRecord
                             ->searchable()->label('Permissões')
                             ->helperText('Selecione as permissões para este Accesso')
                             ->columnSpanFull()
-                    ])->label('Informações do Accesso'),
+                    ])->label(__('acl::acl.forms.role.fieldset.label')),
                 Radio::make('special')
-                    ->label('Tipo de Accesso')
-                    ->options([
+                    ->label(__('acl::acl.forms.role.special.label'))
+                    ->options(config('acl.forms.role.special.options', [
                         'all-access' => 'Acesso Total',
-                        'no-access' => 'Sem Acesso',
-                    ])
+                        'no-access' => 'Nenhum Acesso',
+                    ]))
                     ->inline(),
                 static::getStatusFormRadioField(),
                 Textarea::make('description')
-                    ->label('Descrição')
-                    ->maxLength(65535)
+                    ->label(__('acl::acl.forms.role.description.label'))
+                    ->placeholder(__('acl::acl.forms.role.description.placeholder'))
                     ->columnSpanFull(),
             ]);
     }

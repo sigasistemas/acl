@@ -5,11 +5,10 @@
 * https://www.sigasmart.com.br
 */
  namespace Callcocam\Acl\Models;
-
-use App\Models\Callcocam\AbstractModel;
+ 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Address extends AbstractModel
+class Address extends AbstractAclModel
 {
     use HasFactory;
     

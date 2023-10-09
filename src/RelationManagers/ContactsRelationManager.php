@@ -6,14 +6,16 @@
  * https://www.sigasmart.com.br
  */
 
- namespace Callcocam\Acl\RelationManagers;
+namespace Callcocam\Acl\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Leandrocfe\FilamentPtbrFormFields\PhoneNumber;
 
 class ContactsRelationManager extends RelationManager
@@ -24,26 +26,43 @@ class ContactsRelationManager extends RelationManager
 
     protected static ?string $icon =  'fas-address-book';
 
+    public static function getIcon(Model $ownerRecord, string $pageClass): ?string
+    {
+        return config('acl.resources.contacts.icon', static::$icon);
+    }
+
+    public static function getIconPosition(Model $ownerRecord, string $pageClass): IconPosition
+    {
+        return config('acl.resources.contacts.iconPosition', static::$iconPosition);
+    }
+
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return config('acl.resources.contacts.badge', static::$badge);
+    }
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return  config('acl.resources.contacts.title',   parent::getTitle($ownerRecord, $pageClass));
+    }
+
     public function form(Form $form): Form
     {
         return $form
             ->schema([
 
                 Forms\Components\Select::make('name')
-                    ->options([
-                        'phone' => 'Telefone Fixo',
-                        'fax' => 'Fone Fax',
-                        'cell' => 'Celular',
-                        'whatsapp' => 'Whatsapp',
-                        'email' => 'E-mail',
-                        'site' => 'Site',
-                    ])
-                    ->required()
-                    ->label('Tipo do Contato')
+                    ->options(config('acl.resources.contacts.options', []))
+                    ->required(config('acl.resources.contacts.required', true))
+                    ->label(__('acl::acl.forms.contact.name.label'))
+                    ->placeholder(__('acl::acl.forms.contact.name.placeholder'))
+                    ->hidden(config('acl.resources.contacts.hidden', false))
                     ->reactive(),
                 PhoneNumber::make('description')
-                    ->label('Contato')
-                    ->required()
+                    ->label(__('acl::acl.forms.contact.description.label'))
+                    ->placeholder(__('acl::acl.forms.contact.description.placeholder'))
+                    ->required(config('acl.resources.contacts.required', true))
+                    ->hidden(config('acl.resources.contacts.hidden', false))
                     ->format(function (Get $get) {
                         $type = $get('name');
                         switch ($type):
@@ -67,32 +86,35 @@ class ContactsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-        ->modelLabel('Contato')
-        ->pluralModelLabel('Contatos')
-            ->recordTitleAttribute('name')
+            ->modelLabel(__('acl::acl.forms.contact.modelLabel'))
+            ->pluralModelLabel(__('acl::acl.forms.contact.pluralModelLabel'))
+            ->recordTitleAttribute(config('acl.resources.contacts.title', 'name'))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Tipo do Contato'),
+                    ->label(__('acl::acl.forms.contact.name.label')),
                 Tables\Columns\TextColumn::make('description')
-                    ->label('Contato'),
+                    ->label(__('acl::acl.forms.contact.description.label')),
             ])
             ->filters([
                 //
             ])
-            ->headerActions([
+            ->headerActions(config('acl.resources.contacts.header_actions', [
                 Tables\Actions\CreateAction::make(),
-            ])
-            ->actions([
+            ]))
+            ->actions(config('acl.resources.contacts.actions', [
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-            ])
+            ]))
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\BulkActionGroup::make(config(
+                    'acl.resources.contacts.bulk_actions',
+                    [
+                        Tables\Actions\DeleteBulkAction::make(),
+                    ]
+                )),
             ])
-            ->emptyStateActions([
+            ->emptyStateActions(config('acl.resources.contacts.emptyState_actions', [
                 Tables\Actions\CreateAction::make(),
-            ]);
+            ]));
     }
 }

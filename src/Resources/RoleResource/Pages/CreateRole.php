@@ -1,9 +1,11 @@
 <?php
+
 /**
-* Created by Claudio Campos.
-* User: callcocam@gmail.com, contato@sigasmart.com.br
-* https://www.sigasmart.com.br
-*/
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com, contato@sigasmart.com.br
+ * https://www.sigasmart.com.br
+ */
+
 namespace Callcocam\Acl\Resources\RoleResource\Pages;
 
 use Callcocam\Acl\Resources\RoleResource;
@@ -19,29 +21,29 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateRole extends CreateRecord
 {
     use HasStatusColumn;
-    
+
     protected static string $resource = RoleResource::class;
 
 
     public  function form(Form $form): Form
     {
         return $form
-            ->schema([ 
+            ->schema([
                 TextInput::make('name')
-                    ->label('Nome do Accesso')
-                    ->required()
-                    ->maxLength(255),
+                    ->label(__('acl::role.forms.name.label'))
+                    ->placeholder(__('acl::role.forms.name.placeholder'))
+                    ->required(config('acl.forms.role.name.required', true))
+                    ->maxLength(config('acl.forms.role.name.maxlength', 255)),
                 Radio::make('special')
-                    ->label('Tipo de Accesso')
-                    ->options([
+                    ->label(__('acl::role.forms.special.label'))
+                    ->options(config('acl.forms.role.special.options', [
                         'all-access' => 'Acesso Total',
-                        'no-access' => 'Sem Acesso',
-                    ])
+                        'no-access' => 'Nenhum Acesso',
+                    ]))
                     ->inline(),
-                static::getStatusFormRadioField() ,
+                static::getStatusFormRadioField(),
                 Textarea::make('description')
-                    ->label('Descrição')
-                    ->maxLength(65535)
+                    ->label(__('acl::role.forms.description.label'))
                     ->columnSpanFull(),
             ]);
     }

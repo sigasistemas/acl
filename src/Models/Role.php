@@ -7,8 +7,7 @@
  */
 
 namespace Callcocam\Acl\Models;
-
-use App\Models\Callcocam\AbstractModel;
+ 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,7 +16,7 @@ use Callcocam\Acl\Contracts\IRole as ContractRole;
 use Database\Factories\Callcocam\Acl\RoleFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class Role extends AbstractModel implements ContractRole
+class Role extends AbstractAclModel implements ContractRole
 {
     use HasPermissions, HasFactory;
 

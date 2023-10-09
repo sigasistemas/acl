@@ -36,73 +36,88 @@ class EditUser extends EditRecord
             ->schema([
                 Section::make()->schema([
                     TextInput::make('name')
-                        ->label('Nome Completo')
-                        ->columnSpan([
+                        ->label(__('acl::acl.forms.user.name.label'))
+                        ->placeholder(__('acl::acl.forms.user.name.placeholder')) 
+                        ->columnSpan(config('acl.forms.user.name.columnSpan', [
                             'md' => 4,
-                        ])
-                        ->required()
-                        ->maxLength(255),
+                        ]))
+                        ->required(config('acl.forms.user.name.required', true))
+                        ->hidden(config('acl.forms.user.name.hidden', false))
+                        ->hiddenLabel(config('acl.forms.user.name.hiddenLabel', false))
+                        ->maxLength(config('acl.forms.user.name.maxLength', 255)),
 
                     TextInput::make('email')
-                        ->label('Seu Melhor E-mail')
-                        ->columnSpan([
+                        ->label(__('acl::acl.forms.user.email.label'))
+                        ->placeholder(__('acl::acl.forms.user.email.placeholder'))
+                        ->columnSpan(config('acl.forms.user.email.columnSpan', [
                             'md' => 3,
-                        ])
+                        ]))
                         ->email()
-                        ->required()
-                        ->maxLength(255),
+                        ->required(config('acl.forms.user.email.required', true))
+                        ->hidden(config('acl.forms.user.email.hidden', false))
+                        ->hiddenLabel(config('acl.forms.user.email.hiddenLabel', false))
+                        ->maxLength(config('acl.forms.user.email.maxLength', 255)),
                     TextInput::make('office')
-                        ->label('Cargo')
-                        ->columnSpan([
+                        ->label(__('acl::acl.forms.user.office.label'))
+                        ->placeholder(__('acl::acl.forms.user.office.placeholder'))
+                        ->columnSpan(config('acl.forms.user.office.columnSpan', [
                             'md' => 3,
-                        ])
-                        ->maxLength(255),
+                        ]))
+                        ->required(config('acl.forms.user.office.required', false))
+                        ->hidden(config('acl.forms.user.office.hidden', false))
+                        ->hiddenLabel(config('acl.forms.user.office.hiddenLabel', false))
+                        ->maxLength(config('acl.forms.user.office.maxLength', 255)),
                     DatePicker::make('date_birth')
-                        ->label('Data de Nascimento')
-                        ->columnSpan([
+                        ->label(__('acl::acl.forms.user.date_birth.label'))
+                        ->placeholder(__('acl::acl.forms.user.date_birth.placeholder'))
+                        ->required(config('acl.forms.user.date_birth.required', false))
+                        ->hidden(config('acl.forms.user.date_birth.hidden', false))
+                        ->hiddenLabel(config('acl.forms.user.date_birth.hiddenLabel', false))
+                        ->columnSpan(config('acl.forms.user.date_birth.columnSpan', [
                             'md' => 2,
-                        ]),
+                        ])),
                     Radio::make('genre')
-                        ->label('Gênero')
+                        ->label(__('acl::acl.forms.user.genre.label'))
                         ->inline()
-                        ->options([
+                        ->options(config('acl.forms.user.genre.options', [
                             'masculino' => 'Masculino',
                             'feminino' => 'Feminino',
                             'outros' => 'Outros',
-                        ])
-                        ->columnSpan([
+                        ]))
+                        ->columnSpan(config('acl.forms.user.genre.columnSpan', [
                             'md' => 5,
-                        ]),
+                        ])),
                     Toggle::make('email_verified')
-                        ->label('E-mail Verificado')
-                        ->columnSpan([
+                        ->label(__('acl::acl.forms.user.email_verified.label'))
+                        ->helperText(__('acl::acl.forms.user.email_verified.helpText'))
+                        ->columnSpan(config('acl.forms.user.email_verified.columnSpan', [
                             'md' => 3,
-                        ]),
+                        ])),
 
                     Radio::make('status')
                         ->inline()
-                        ->options([
-                            'draft' => 'Draft',
-                            'published' => 'Published',
-                        ])
-                        ->columnSpan([
+                        ->options(config('acl.forms.user.status.options', [
+                            'published' => 'Ativo',
+                            'draft' => 'Inativo',
+                        ]))
+                        ->columnSpan(config('acl.forms.user.status.columnSpan', [
                             'md' => 4,
-                        ])
-                        ->required(),
-                    Fieldset::make('Dados de acesso')->schema([
+                        ]))
+                        ->required(config('acl.forms.user.status.required', true)),
+                    Fieldset::make(__('acl::acl.forms.user.roles.label'))->schema([
                         CheckboxList::make('roles')
                             ->relationship('roles', 'name')
-                            ->bulkToggleable()
-                            ->searchable()
-                            ->label('Accessos')
-                            ->helperText('Selecione os accessos para este usuário')
+                            ->bulkToggleable(config('acl.forms.user.roles.bulkToggleable', true))
+                            ->searchable(config('acl.forms.user.roles.searchable', true))
+                            ->label(config('acl.forms.user.roles.label', 'Roles'))
+                            ->helperText(config('acl.forms.user.roles.helperText', 'Select roles for this user.'))
                             ->columnSpanFull(),
                     ])->columnSpanFull(),
 
-                    Fieldset::make('Dados de acesso')->schema([
+                    Fieldset::make(__('acl::acl.forms.user.data.access.label'))->schema([
                         ...static::getFieldPasswordForUpdateForm()
                     ])->columns(3),
-                     static::getEditorFormField(),
+                    static::getEditorFormField(),
                 ])->columns(12)
             ])->columns(12);
     }

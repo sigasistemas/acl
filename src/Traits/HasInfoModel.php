@@ -8,11 +8,11 @@
 
 namespace Callcocam\Acl\Traits;
 
-use App\Models\Callcocam\Address;
-use App\Models\Callcocam\Contact;
-use App\Models\Callcocam\Document;
-use App\Models\Callcocam\Image;
-use App\Models\Callcocam\Social;
+use Callcocam\Acl\Models\Address;
+use Callcocam\Acl\Models\Contact;
+use Callcocam\Acl\Models\Document;
+use Callcocam\Acl\Models\Image;
+use Callcocam\Acl\Models\Social;
 
 trait HasInfoModel
 {

@@ -1,13 +1,15 @@
 <?php
+
 /**
-* Created by Claudio Campos.
-* User: callcocam@gmail.com, contato@sigasmart.com.br
-* https://www.sigasmart.com.br
-*/
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com, contato@sigasmart.com.br
+ * https://www.sigasmart.com.br
+ */
+
 namespace Callcocam\Acl\Resources;
 
 use Callcocam\Acl\Resources\UserResource\Pages;
-use Callcocam\Acl\Resources\UserResource\RelationManagers; 
+use Callcocam\Acl\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Callcocam\Acl\RelationManagers\AddressesRelationManager;
 use Callcocam\Acl\RelationManagers\ContactsRelationManager;
@@ -31,7 +33,7 @@ class UserResource extends Resource
 
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user'; 
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     protected static ?string $navigationGroup = "Acl";
 
@@ -40,30 +42,19 @@ class UserResource extends Resource
     protected static ?string $modelLabelPlural = 'Usuários';
 
     protected static ?int $navigationSort = 2;
-    
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([ 
-                Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
+            ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(), 
-                Tables\Columns\TextColumn::make('office')
+                    ->label(__('acl::user.forms.name.label'))
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(),   
-                Tables\Columns\TextColumn::make('status')
-                    ->searchable(), 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true), 
+                    ->searchable(),
+                static::getStatusTableIconColumn(),
+                ...static::getFieldDatesFormForTable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -82,53 +73,46 @@ class UserResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
 
         $relations = [];
 
-        if(class_exists('App\\Models\\Callcocam\\Address')){
-
+        if (config('acl.relations.user.address',  true)) {
             $relations[] = AddressesRelationManager::class;
         }
-
-        if(class_exists('App\\Models\\Callcocam\\Contact')){
-
+        if (config('acl.relations.user.contact',  true)) {
             $relations[] = ContactsRelationManager::class;
         }
-
-        if(class_exists('App\\Models\\Callcocam\\Document')){
-
+        if (config('acl.relations.user.document',  true)) {
             $relations[] = DocumentsRelationManager::class;
         }
-
-        if(class_exists('App\\Models\\Callcocam\\Social')){
-
+        if (config('acl.relations.user.social',  true)) {
             $relations[] = SocialsRelationManager::class;
         }
 
-        return $relations;
+        return config('acl.relations.user', [...$relations]);
     }
-    
+
     public static function getPages(): array
     {
-        return [
+        return config('acl.pages.user', [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
-        ];
-    }    
-    
+        ]);
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
+            ->withoutGlobalScopes(config('acl.scopes.user', [
                 SoftDeletingScope::class,
-            ]);
+            ]));
     }
 
-    
+
     /**
      * Retorna o subtitulo do resultado da pesquisa global
      * @param Model $record

@@ -9,7 +9,7 @@
 namespace Callcocam\Acl\Models\Auth;
 
 use Callcocam\Acl\Concerns\HasRolesAndPermissions;
-use Callcocam\Acl\Models\AbstractModel;
+use Callcocam\Acl\Models\AbstractAclModel;
 use Callcocam\Acl\Traits\HasInfoModel;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
@@ -19,7 +19,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 
-class User extends AbstractModel implements
+class User extends AbstractAclModel implements
     AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract

@@ -21,12 +21,13 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class AccessGroupResource extends Resource
 {
     use HasStatusColumn, HasDatesFormForTableColums;
 
-    protected static ?string $model = AccessGroup::class;
+    // protected static ?string $model = AccessGroup::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -37,6 +38,45 @@ class AccessGroupResource extends Resource
     protected static ?string $modelLabelPlural = 'Grupos de Acesso';
 
     protected static ?int $navigationSort = 3;
+
+    public static function getModel(): string
+    {
+        return config('acl.models.access_group', AccessGroup::class);
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return config('acl.navigation.access_group.group', static::$navigationGroup);
+    }
+
+    public static function getNavigationIcon(): ?string
+    {
+        return config('acl.navigation.access_group.icon', static::$navigationIcon);
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return static::$navigationLabel ?? config('acl.navigation.access_group.label', Str::headline(static::getPluralModelLabel()));
+    }
+
+    
+    public static function getNavigationBadge(): ?string
+    {
+        return config('acl.navigation.access_group.badge', null);
+    }
+
+    /**
+     * @return string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | null
+     */
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return config('acl.navigation.access_group.badge_color', null);
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return config('acl.navigation.access_group.sort', static::$navigationSort);
+    }
 
     public static function form(Form $form): Form
     {
