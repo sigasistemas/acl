@@ -1,10 +1,15 @@
 {
     "name": "callcocam/acl",
-    "description": "This is my package acl",
+    "description": "This is my package acl filament v3 for laravel",
     "keywords": [
         "callcocam",
         "laravel",
-        "acl"
+        "acl",
+        "filament",
+        "filament-admin",
+        "filament-admin-panel",
+        "filament-admin-dashboard", 
+        "filament-v3"
     ],
     "homepage": "https://github.com/callcocam/acl",
     "support": {
@@ -25,7 +30,9 @@
         "spatie/laravel-package-tools": "^1.15.0",
         "illuminate/contracts": "^10.0",
         "leandrocfe/filament-ptbr-form-fields": "^3.0",
-        "owenvoke/blade-fontawesome": "^2.4"
+        "owenvoke/blade-fontawesome": "^2.4",
+        "callcocam/profile": "dev-main",
+        "callcocam/tall-sluggable": "dev-main"
     },
     "require-dev": {
         "laravel/pint": "^1.0",

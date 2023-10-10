@@ -8,8 +8,8 @@
 
 namespace Callcocam\Acl\Commands;
 
-use App\Models\Callcocam\AccessGroup;
-use App\Models\Callcocam\Permission;
+use Callcocam\Acl\Models\AccessGroup;
+use Callcocam\Acl\Models\Permission;
 use Illuminate\Console\Command;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,7 +46,7 @@ class AclPolicyCommand extends GeneratorCommand
      */
     protected $type = 'Policy';
 
-    protected $permissions ;
+    protected $permissions;
 
     /**
      * Execute the console command.
@@ -62,13 +62,13 @@ class AclPolicyCommand extends GeneratorCommand
             return;
         }
         $policy = $this->choice('Which policy would you like to generate?', $options, false);
-        
+
         if (!$policy) {
             $this->error('You have not created any permissions yet.');
             return;
         }
         $this->permissions = Str::beforeLast($policy, '.');
- 
+
 
         parent::handle();
     }
@@ -200,7 +200,7 @@ class AclPolicyCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/acl-policy.stub';
+        return __DIR__ . '/stubs/acl-policy.stub';
     }
 
     /**

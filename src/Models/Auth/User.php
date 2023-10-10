@@ -11,6 +11,7 @@ namespace Callcocam\Acl\Models\Auth;
 use Callcocam\Acl\Concerns\HasRolesAndPermissions;
 use Callcocam\Acl\Models\AbstractAclModel;
 use Callcocam\Acl\Traits\HasInfoModel;
+use Callcocam\Profile\Traits\HasProfileModel;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -28,7 +29,7 @@ class User extends AbstractAclModel implements
         Authorizable,
         CanResetPassword,
         MustVerifyEmail,
-        HasInfoModel,
+        HasProfileModel,
         HasRolesAndPermissions;
 
     protected $guarded = ['id'];
