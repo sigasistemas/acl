@@ -8,12 +8,13 @@
 
 namespace Callcocam\Acl\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AbstractAclModel extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasUlids;
 
     public function __construct(array $attributes = [])
     {
