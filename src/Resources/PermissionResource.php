@@ -151,16 +151,18 @@ class PermissionResource extends Resource
 
         $columns[] = Tables\Columns\TextColumn::make('name')
             ->label(__('acl::acl.columns.permission.name'))
+            ->limit(config('acl.columns.permission.name.limit', 50))
             ->sortable(config('acl.columns.permission.name.sortable', true))
             ->searchable(config('acl.columns.permission.name.searchable', true));
 
         $columns[] = Tables\Columns\TextColumn::make('slug')
+            ->limit(config('acl.columns.permission.slug.limit', 35))
             ->label(__('acl::acl.columns.permission.slug'))
             ->searchable();
 
         $columns[] = static::getStatusTableIconColumn();
 
-        $columns[] =  [...static::getFieldDatesFormForTable()];
+        $columns = array_merge($columns, static::getFieldDatesFormForTable());
 
         return $table
             ->groups($groups)
