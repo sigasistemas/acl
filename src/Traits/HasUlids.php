@@ -58,7 +58,7 @@ trait HasUlids
      */
     public function resolveRouteBindingQuery($query, $value, $field = null)
     {
-        if (config('tenant.uuid')) {
+        if (config('acl.uuid')) {
             if ($field && in_array($field, $this->uniqueIds()) && !Str::isUuid($value)) {
                 throw (new ModelNotFoundException)->setModel(get_class($this), $value);
             }
