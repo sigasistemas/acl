@@ -7,10 +7,10 @@
  */
 
 namespace Callcocam\Acl\Models;
-
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
+ 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Callcocam\Acl\Traits\HasUlids;
 
 class AbstractAclModel extends Model
 {
