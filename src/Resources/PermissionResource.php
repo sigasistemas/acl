@@ -83,8 +83,10 @@ class PermissionResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
+        $fields = [];
+
+        if (config('acl.access_group')) {
+            $fields = [
                 Forms\Components\Select::make('access_group_id')
                     ->label(__('acl::acl.forms.permission.access_group_id.label'))
                     ->required(config('acl.forms.permission.name.required', true))
@@ -93,53 +95,76 @@ class PermissionResource extends Resource
                         'md' => 2,
                     ]))
                     ->options(AccessGroup::query()->pluck('name', 'id')->toArray()),
-                Forms\Components\TextInput::make('name')
-                    ->label(__('acl::acl.forms.permission.name.label'))
-                    ->placeholder(__('acl::acl.forms.permission.name.placeholder'))
-                    ->required(config('acl.forms.permission.name.required', true))
-                    ->columnSpan(config('acl.forms.permission.name.columnSpan', [
-                        'md' => 4,
-                    ]))
-                    ->maxLength(config('acl.forms.permission.name.maxLength', 255)),
-                Forms\Components\TextInput::make('slug')
-                    ->columnSpan(config('acl.forms.permission.slug.columnSpan', [
-                        'md' => 6
-                    ]))
-                    ->label(__('acl::acl.forms.permission.slug.label'))
-                    ->placeholder(__('acl::acl.forms.permission.slug.placeholder'))
-                    ->suffixAction(static::getGlobalRoutes())
-                    ->required(config('acl.forms.permission.slug.required', true))
-                    ->maxLength(config('acl.forms.permission.slug.maxLength', 255)),
+            ];
+        }
 
-                static::getStatusFormRadioField(),
-                Forms\Components\Textarea::make('description')
-                    ->label(__('acl::acl.forms.permission.description.label'))
-                    ->placeholder(__('acl::acl.forms.permission.description.placeholder'))
-                    ->columnSpanFull(),
-            ])->columns(12);
+        $fields[] =   Forms\Components\TextInput::make('name')
+            ->label(__('acl::acl.forms.permission.name.label'))
+            ->placeholder(__('acl::acl.forms.permission.name.placeholder'))
+            ->required(config('acl.forms.permission.name.required', true))
+            ->columnSpan(config('acl.forms.permission.name.columnSpan', [
+                'md' => 4,
+            ]))
+            ->maxLength(config('acl.forms.permission.name.maxLength', 255));
+
+
+        $fields[] =  Forms\Components\TextInput::make('slug')
+            ->columnSpan(config('acl.forms.permission.slug.columnSpan', [
+                'md' => 6
+            ]))
+            ->label(__('acl::acl.forms.permission.slug.label'))
+            ->placeholder(__('acl::acl.forms.permission.slug.placeholder'))
+            ->suffixAction(static::getGlobalRoutes())
+            ->required(config('acl.forms.permission.slug.required', true))
+            ->maxLength(config('acl.forms.permission.slug.maxLength', 255));
+
+        $fields[] = static::getStatusFormRadioField();
+
+        $fields[] = Forms\Components\Textarea::make('description')
+            ->label(__('acl::acl.forms.permission.description.label'))
+            ->placeholder(__('acl::acl.forms.permission.description.placeholder'))
+            ->columnSpanFull();
+
+        return $form
+            ->schema($fields)->columns(12);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->groups([
-                Group::make('access_groups.name')
-                    ->label(__('acl::acl.permission.groups.access_groups.name')),
-            ])
-            ->columns([
+
+        $columns = [];
+        $groups = [];
+
+        if (config('acl.access_group')) {
+            $columns = [
                 Tables\Columns\TextColumn::make('access_groups.name')
                     ->label(__('acl::acl.columns.permission.access_groups'))
                     ->sortable(config('acl.columns.permission.access_groups.name.sortable', true))
                     ->searchable(config('acl.columns.permission.access_groups.name.searchable', true)),
-                Tables\Columns\TextColumn::make('name')
-                    ->label(__('acl::acl.columns.permission.name'))
-                    ->sortable(config('acl.columns.permission.name.sortable', true))
-                    ->searchable(config('acl.columns.permission.name.searchable', true)),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                static::getStatusTableIconColumn(),
-                ...static::getFieldDatesFormForTable()
-            ])
+            ];
+
+            $groups = [
+                Group::make('access_groups.name')
+                    ->label(__('acl::acl.permission.groups.access_groups.name')),
+            ];
+        }
+
+        $columns[] = Tables\Columns\TextColumn::make('name')
+            ->label(__('acl::acl.columns.permission.name'))
+            ->sortable(config('acl.columns.permission.name.sortable', true))
+            ->searchable(config('acl.columns.permission.name.searchable', true));
+
+        $columns[] = Tables\Columns\TextColumn::make('slug')
+            ->label(__('acl::acl.columns.permission.slug'))
+            ->searchable();
+
+        $columns[] = static::getStatusTableIconColumn();
+
+        $columns[] =  [...static::getFieldDatesFormForTable()];
+
+        return $table
+            ->groups($groups)
+            ->columns($columns)
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
