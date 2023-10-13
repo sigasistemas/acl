@@ -65,6 +65,10 @@ class AclServiceProvider extends PackageServiceProvider
         if (file_exists($package->basePath('/../resources/views'))) {
             $package->hasViews(static::$viewNamespace);
         }
+        
+        if (file_exists($package->basePath('/../routes'))) {
+            $package->hasRoutes($this->getRoutes());
+        }
     }
 
     public function packageRegistered(): void
@@ -145,7 +149,9 @@ class AclServiceProvider extends PackageServiceProvider
      */
     protected function getRoutes(): array
     {
-        return [];
+        return [
+            'web',
+        ];
     }
 
     /**
