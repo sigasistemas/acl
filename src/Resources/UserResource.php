@@ -22,6 +22,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -60,7 +61,12 @@ class UserResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make(),                
+                Action::make('Logar')
+                    ->icon('heroicon-o-user')
+                    ->visible(auth()->user()->isAdmin())
+                    ->url(fn (User $record): string => route('acl.user.login', ['user' => $record]))
+                    ->openUrlInNewTab()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
