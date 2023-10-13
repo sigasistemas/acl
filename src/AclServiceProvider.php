@@ -23,6 +23,8 @@ use Callcocam\Acl\Commands\AclInstallCommand;
 use Callcocam\Acl\Commands\AclPolicyCommand;
 use Callcocam\Acl\Testing\TestsAcl;
 use Illuminate\Contracts\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class AclServiceProvider extends PackageServiceProvider
@@ -73,6 +75,9 @@ class AclServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
+        $this->app->bind(StatefulGuard::class, function () {
+            return Auth::guard(config('fortify.guard', null));
+        });
     }
 
     public function packageBooted(): void
