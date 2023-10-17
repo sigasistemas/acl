@@ -8,11 +8,11 @@
 
 namespace Callcocam\Acl;
 
-use App\Models\Callcocam\AccessGroup;
-use App\Models\Callcocam\Permission;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
+use Callcocam\Acl\Models\AccessGroup;
+use Callcocam\Acl\Models\Permission;
 
 class LoadRouterHelper
 {
