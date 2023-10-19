@@ -16,7 +16,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Str;
 
 class CreateRole extends CreateRecord
 {
@@ -33,11 +35,12 @@ class CreateRole extends CreateRecord
                     ->label(__('acl::acl.forms.role.name.label'))
                     ->placeholder(__('acl::acl.forms.role.name.placeholder'))
                     ->required(config('acl.forms.role.name.required', true))
-                    ->maxLength(config('acl.forms.role.name.maxlength', 255)),
+                    ->maxLength(config('acl.forms.role.name.maxlength', 255)) ->live()
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
                 TextInput::make('slug')
                     ->label(__('acl::acl.forms.role.slug.label'))
                     ->placeholder(__('acl::acl.forms.role.slug.placeholder'))
-                    ->readOnly(config('acl.forms.role.slug.readonly', true))
+                    ->readOnly(config('acl.forms.role.slug.readonly', false))
                     ->required(config('acl.forms.role.slug.required', true))
                     ->maxLength(config('acl.forms.role.slug.maxlength', 255)),
                 Radio::make('special')
