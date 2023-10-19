@@ -30,17 +30,24 @@ class CreateRole extends CreateRecord
         return $form
             ->schema([
                 TextInput::make('name')
-                ->label(__('acl::acl.forms.role.name.label'))
-                ->placeholder(__('acl::acl.forms.role.name.placeholder'))
-                ->required(config('acl.forms.role.name.required', true))
-                ->maxLength(config('acl.forms.role.name.maxlength', 255)),
+                    ->label(__('acl::acl.forms.role.name.label'))
+                    ->placeholder(__('acl::acl.forms.role.name.placeholder'))
+                    ->required(config('acl.forms.role.name.required', true))
+                    ->maxLength(config('acl.forms.role.name.maxlength', 255)),
+                TextInput::make('slug')
+                    ->label(__('acl::acl.forms.role.slug.label'))
+                    ->placeholder(__('acl::acl.forms.role.slug.placeholder'))
+                    ->readOnly(config('acl.forms.role.slug.readonly', true))
+                    ->required(config('acl.forms.role.slug.required', true))
+                    ->maxLength(config('acl.forms.role.slug.maxlength', 255)),
                 Radio::make('special')
-                ->label(__('acl::acl.forms.role.special.label'))
+                    ->label(__('acl::acl.forms.role.special.label'))
                     ->options(config('acl.forms.role.special.options', [
                         'all-access' => 'Acesso Total',
                         'no-access' => 'Nenhum Acesso',
                     ]))
-                    ->inline(),
+                    ->inline()
+                    ->columnSpanFull(),
                 static::getStatusFormRadioField(),
                 Textarea::make('description')
                     ->label(__('acl::role.forms.description.label'))
