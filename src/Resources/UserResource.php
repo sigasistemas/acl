@@ -49,10 +49,11 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('acl::user.forms.name.label'))
+                    ->label(__('acl::acl.forms.user.name.label'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__('acl::acl.forms.user.email.label'))
                     ->searchable(),
                 static::getStatusTableIconColumn(),
                 ...static::getFieldDatesFormForTable(),
@@ -61,7 +62,7 @@ class UserResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),                
+                Tables\Actions\EditAction::make(),
                 Action::make('Logar')
                     ->icon('heroicon-o-user')
                     ->visible(auth()->user()->isAdmin())

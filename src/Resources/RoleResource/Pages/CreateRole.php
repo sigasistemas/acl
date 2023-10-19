@@ -30,12 +30,12 @@ class CreateRole extends CreateRecord
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->label(__('acl::role.forms.name.label'))
-                    ->placeholder(__('acl::role.forms.name.placeholder'))
-                    ->required(config('acl.forms.role.name.required', true))
-                    ->maxLength(config('acl.forms.role.name.maxlength', 255)),
+                ->label(__('acl::acl.forms.role.name.label'))
+                ->placeholder(__('acl::acl.forms.role.name.placeholder'))
+                ->required(config('acl.forms.role.name.required', true))
+                ->maxLength(config('acl.forms.role.name.maxlength', 255)),
                 Radio::make('special')
-                    ->label(__('acl::role.forms.special.label'))
+                ->label(__('acl::acl.forms.role.special.label'))
                     ->options(config('acl.forms.role.special.options', [
                         'all-access' => 'Acesso Total',
                         'no-access' => 'Nenhum Acesso',
