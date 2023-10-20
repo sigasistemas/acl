@@ -31,8 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class UserResource extends Resource
 {
     use HasGlobalSearchBase, HasStatusColumn, HasDatesFormForTableColums;
-
-    protected static ?string $model = User::class;
+ 
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
@@ -43,6 +42,16 @@ class UserResource extends Resource
     protected static ?string $modelLabelPlural = 'Usuários';
 
     protected static ?int $navigationSort = 2;
+
+    /**
+     * Get the model class name for the user resource.
+     *
+     * @return string
+     */
+    public static function getModel(): string
+    {
+        return config('acl.models.user', User::class);
+    }
 
     public static function table(Table $table): Table
     {
