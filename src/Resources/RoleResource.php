@@ -130,7 +130,9 @@ class RoleResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes(config('acl.scopes.role', [
                 SoftDeletingScope::class,
-            ]));
+            ]))->when(config('acl.query.role', []), function ($query, $callback) {
+                return $callback($query);
+            });
     }
 
     protected static function bulkActionsGroup()

@@ -29,9 +29,6 @@ class Role extends AbstractAclModel implements ContractRole
         'id'
     ];
 
-
-
-
     /**
      * Roles can belong to many users.
      *
