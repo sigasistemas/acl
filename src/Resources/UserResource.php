@@ -95,16 +95,16 @@ class UserResource extends Resource
 
         $relations = [];
 
-        if (config('acl.relations.user.address',  true)) {
+        if (config('acl.relations.acl.user.address',  true)) {
             $relations[] = AddressesRelationManager::class;
         }
-        if (config('acl.relations.user.contact',  true)) {
+        if (config('acl.relations.acl.user.contact',  true)) {
             $relations[] = ContactsRelationManager::class;
         }
-        if (config('acl.relations.user.document',  true)) {
+        if (config('acl.relations.acl.user.document',  true)) {
             $relations[] = DocumentsRelationManager::class;
         }
-        if (config('acl.relations.user.social',  true)) {
+        if (config('acl.relations.acl.user.social',  true)) {
             $relations[] = SocialsRelationManager::class;
         }
 
