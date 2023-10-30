@@ -40,7 +40,7 @@ class LoadRouterHelper
     public  function save($delete = false)
     {
         if ($delete) {
-            Permission::query()->forceDelete();
+            app(config('acl.models.permission', Permission::class))->query()->forceDelete();
         }
 
         foreach (Route::getRoutes() as $route) {
@@ -57,7 +57,7 @@ class LoadRouterHelper
                             ->replace("pages.", "")
                             ->replace("resources.", "")
                             ->replace('filament.', '')->__toString();
-                        if (!Permission::query()->where('slug', $permissionFormated)->count()) {
+                        if (!app(config('acl.models.permission', Permission::class))->query()->where('slug', $permissionFormated)->count()) {
                             $description = Str::of($permissionFormated)->lower()->replace(".", " ")->__toString();
                             $name = Str::of($permissionFormated)->lower()->__toString();
                             $name  = Str::title(str_replace(".", " ", $name));
@@ -65,17 +65,17 @@ class LoadRouterHelper
                             if (!in_array($last, ['edit', 'create', 'view', 'show',  'destroy', 'delete'])) {
                                 $last = "index";
                             }
-                            if ($group = AccessGroup::query()->where('slug', $last)->first()) :
+                            if ($group = app(config('acl.models.access_group', AccessGroup::class))->query()->where('slug', $last)->first()) :
                                 $last = $group->id;
                             else :
-                                $last = AccessGroup::create([
+                                $last = app(config('acl.models.access_group', AccessGroup::class))->create([
                                     'name' => $last,
                                     'slug' => $last,
                                     'status' => 'published',
                                     'description' => $last
                                 ])->id;
                             endif;
-                            Permission::create(
+                            app(config('acl.models.permission', Permission::class))->create(
                                 [
                                     'name' => $name,
                                     'slug' => $permissionFormated,
