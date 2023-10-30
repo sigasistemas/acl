@@ -21,6 +21,8 @@ class AbstractAclModel extends Model
         $this->incrementing = config('acl.incrementing', true);
 
         $this->keyType = config('acl.keyType', 'int');
+        
+        $this->connection = config('profile.connection', 'mysql');
 
         parent::__construct($attributes);
     }
