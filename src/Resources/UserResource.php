@@ -125,7 +125,7 @@ class UserResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes(config('acl.scopes.user', [
                 SoftDeletingScope::class,
-            ]));
+            ]))->tenant();
     }
 
 

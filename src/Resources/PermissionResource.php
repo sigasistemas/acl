@@ -206,9 +206,7 @@ class PermissionResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
-            ])->when(config('acl.query.permission', []), function ($query, $callback) {
-                return $callback($query);
-            });
+            ])->tenant();
     }
 
     protected static function getGlobalRoutes()

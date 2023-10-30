@@ -144,8 +144,6 @@ class AccessGroupResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
-            ])->when(config('acl.query.access_group', []), function ($query, $callback) {
-                return $callback($query);
-            });
+            ])->tenant();
     }
 }
