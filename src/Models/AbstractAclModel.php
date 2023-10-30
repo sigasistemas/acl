@@ -11,6 +11,7 @@ namespace Callcocam\Acl\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Callcocam\Acl\Traits\HasUlids;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class AbstractAclModel extends Model
 {
@@ -30,6 +31,9 @@ class AbstractAclModel extends Model
     protected $guarded = [
         'id'
     ];
-
+    public function scopeTenant(Builder $query): void
+    {
+        // $query->where('tenant_id', auth()->user()->tenant_id);
+    }
     
 }
