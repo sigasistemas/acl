@@ -19,8 +19,8 @@ return [
                     'required' => true,
                ],
                'name' => [
-                    'label' => 'Your name',
-                    'placeholder' => 'Enter your name',
+                    'label' => 'Nome completo',
+                    'placeholder' => 'Informe seu nome completo',
                     // 'columnSpan'  
                     // 'required'
                     // 'hidden'
@@ -28,8 +28,8 @@ return [
                     // 'maxLength' 
                ],
                'email' => [
-                    'label' => 'Your email',
-                    'placeholder' => 'Enter your email',
+                    'label' => 'Email',
+                    'placeholder' => 'Informe seu email',
                     // 'columnSpan'  
                     // 'required'
                     // 'hidden'
@@ -37,8 +37,8 @@ return [
                     // 'maxLength' 
                ],
                'office' => [
-                    'label' => 'Your office',
-                    'placeholder' => 'Enter your office',
+                    'label' => 'Cargo',
+                    'placeholder' => 'Informe seu cargo',
                     // 'columnSpan'  
                     // 'required'
                     // 'hidden'
@@ -46,8 +46,8 @@ return [
                     // 'maxLength' 
                ],
                'password' => [
-                    'label' => 'Your password',
-                    'placeholder' => 'Enter your password',
+                    'label' => 'Senha',
+                    'placeholder' => 'Informe sua senha',
                     // 'columnSpan'  
                     // 'required'
                     // 'hidden'
@@ -55,8 +55,8 @@ return [
                     // 'maxLength' 
                ],
                'password_confirmation' => [
-                    'label' => 'Your password confirmation',
-                    'placeholder' => 'Enter your password confirmation',
+                    'label' => 'Confirmação de senha',
+                    'placeholder' => 'Informe sua confirmação de senha',
                     // 'columnSpan'  
                     // 'required'
                     // 'hidden'
@@ -64,8 +64,8 @@ return [
                     // 'maxLength' 
                ],
                'status' => [
-                    'label' => 'Your status',
-                    'placeholder' => 'Enter your status',
+                    'label' => 'Status',
+                    'placeholder' => 'Informe seu status',
                     // 'columnSpan'  
                     // 'required'
                     // 'hidden'
@@ -73,8 +73,8 @@ return [
                     // 'maxLength' 
                ],
                'date_birth' => [
-                    'label' => 'Your date birth',
-                    'placeholder' => 'Enter your date birth',
+                    'label' => 'Data de nascimento',
+                    'placeholder' => 'Informe sua data de nascimento',
                     // 'columnSpan'  
                     // 'required'
                     // 'hidden'
@@ -82,8 +82,8 @@ return [
                     // 'maxLength' 
                ],
                'genre' => [
-                    'label' => 'Your genre',
-                    'placeholder' => 'Enter your genre',
+                    'label' => 'Gênero',
+                    'placeholder' => 'Informe seu gênero',
                     // 'columnSpan'  
                     // 'required'
                     // 'hidden'
@@ -91,7 +91,7 @@ return [
                     // 'maxLength' 
                ],
                'email_verified' => [
-                    'label' => 'Your email verified',
+                    'label' => 'Email verificado',
                     'helpText' => '',
                     // 'columnSpan'  
                     // 'required'
@@ -101,7 +101,7 @@ return [
                ],
                'data' => [
                     'access' => [
-                         'label' => 'Your access',
+                         'label' => 'Configurações de acesso',
                          'helpText' => '',
                          // 'columnSpan'  
                          // 'required'
@@ -111,7 +111,7 @@ return [
                     ]
                ],
                'roles' => [
-                    'label' => 'Your roles',
+                    'label' => 'Funções',
                     'helpText' => '',
                     // 'columnSpan'  
                     // 'required'
@@ -124,93 +124,94 @@ return [
 
           ],
           'address' => [
-               'modelLabel' => 'Address',
-               'pluralModelLabel' => 'Addresses',
+               'modelLabel' => 'Endereço',
+               'pluralModelLabel' => 'Endereços',
                'name' => [
-                    'label' => 'Name',
-                    'placeholder' => 'Enter the name',
+                    'label' => 'Nome',
+                    'placeholder' => 'Informe o nome',
                ],
                'zip' => [
-                    'label' => 'Zip',
-                    'placeholder' => 'Enter the zip',
-               ],
+                    'label' => 'CEP',
+                    'placeholder' => 'Informe o CEP',
+               ],                  
                'street' => [
-                    'label' => 'Street',
-                    'placeholder' => 'Enter the street',
+                    'label' => 'Rua',
+                    'placeholder' => 'Informe a rua',
                ],
                'number' => [
-                    'label' => 'Number',
-                    'placeholder' => 'Enter the number',
+                    'label' => 'Número',
+                    'placeholder' => 'Informe o número',
                ],
                'complement' => [
-                    'label' => 'Complement',
-                    'placeholder' => 'Enter the complement',
+                    'label' => 'Complemento',
+                    'placeholder' => 'Informe o complemento',
                ],
                'district' => [
-                    'label' => 'District',
-                    'placeholder' => 'Enter the district',
+                    'label' => 'Bairro',
+                    'placeholder' => 'Informe o bairro',
                ],
                'city' => [
-                    'label' => 'City',
-                    'placeholder' => 'Enter the city',
+                    'label' => 'Cidade',
+                    'placeholder' => 'Informe a cidade',
                ],
                'state' => [
-                    'label' => 'State',
-                    'placeholder' => 'Enter the state',
+                    'label' => 'Estado',
+                    'placeholder' => 'Informe o estado',
                ],
                'country' => [
-                    'label' => 'Country',
-                    'placeholder' => 'Enter the country',
-               ],
-               'latitude' => [
-                    'label' => 'Latitude',
-                    'placeholder' => 'Enter the latitude',
+                    'label' => 'País',
+                    'placeholder' => 'Informe o país',
                ],
                'longitude' => [
                     'label' => 'Longitude',
-                    'placeholder' => 'Enter the longitude',
+                    'placeholder' => 'Informe a longitude',
                ],
+               'latitude' => [
+                    'label' => 'Latitude',
+                    'placeholder' => 'Informe a latitude',
+               ],
+
           ],
           'contact' => [
-               'modelLabel' => 'Contact',
-               'pluralModelLabel' => 'Contacts',
+               'modelLabel' => 'Contato',
+               'pluralModelLabel' => 'Contatos',
                'name' => [
-                    'label' => 'Name',
-                    'placeholder' => 'Enter the name',
+                    'label' => 'Nome',
+                    'placeholder' => 'Informe o nome',
                ],
                'description' => [
-                    'label' => 'Description',
-                    'placeholder' => 'Enter the description',
+                    'label' => 'Descrição',
+                    'placeholder' => 'Informe a descrição',
                ],
           ],
           'document' => [
-               'modelLabel' => 'Document',
-               'pluralModelLabel' => 'Documents',
+               'modelLabel' => 'Documento',
+               'pluralModelLabel' => 'Documentos',
                'name' => [
-                    'label' => 'Name',
-                    'placeholder' => 'Enter the name',
+                    'label' => 'Nome',
+                    'placeholder' => 'Informe o nome',
                ],
                'description' => [
-                    'label' => 'Description',
-                    'placeholder' => 'Enter the description',
+                    'label' => 'Descrição',
+                    'placeholder' => 'Informe a descrição',
                ],
           ],
           'social' => [
                'modelLabel' => 'Social',
                'pluralModelLabel' => 'Socials',
                'name' => [
-                    'label' => 'Name',
-                    'placeholder' => 'Enter the name',
+                    'label' => 'Nome',
+                    'placeholder' => 'Informe o nome',
                ],
                'description' => [
-                    'label' => 'Description',
-                    'placeholder' => 'Enter the description',
+                    'label' => 'Descrição',
+                    'placeholder' => 'Informe a descrição',
                ],
           ],
           'permission'=>[
                'access_group_id' => [
-                    'label' => 'Access groups',
-                    'placeholder' => 'Access groups',
+                    'label' => 'Grupos de acesso',
+                    'placeholder' => 'Informe os grupos de acesso',
                     'helpText' => '',
                     // 'columnSpan'  
                     // 'required'
@@ -219,46 +220,46 @@ return [
                     // 'maxLength' 
                ],
                'name' => [
-                    'label' => 'Name',
-                    'placeholder' => 'Enter the name',
+                    'label' => 'Nome',
+                    'placeholder' => 'Informe o nome',
                ],
                'slug' => [
                     'label' => 'Slug',
-                    'placeholder' => 'Enter the slug',
+                    'placeholder' => 'Informe o slug',
                ],
                'description' => [
-                    'label' => 'Description',
-                    'placeholder' => 'Enter the description',
+                    'label' => 'Descrição',
+                    'placeholder' => 'Informe a descrição',
                ],
                'status' => [
                     'label' => 'Status',
-                    'placeholder' => 'Enter the status',
+                    'placeholder' => 'Informe o status',
                ], 
           ],
           'role'=>[
                'name' => [
-                    'label' => 'Name',
-                    'placeholder' => 'Enter the name',
+                    'label' => 'Nome',
+                    'placeholder' => 'Informe o nome',
                ],
                'slug' => [
                     'label' => 'Slug',
-                    'placeholder' => 'Enter the slug',
+                    'placeholder' => 'Informe o slug',
                ],
                'description' => [
-                    'label' => 'Description',
-                    'placeholder' => 'Enter the description',
+                    'label' => 'Descrição',
+                    'placeholder' => 'Informe a descrição',
                ],
                'status' => [
                     'label' => 'Status',
-                    'placeholder' => 'Enter the status',
+                    'placeholder' => 'Informe o status',
                ],
                'special' => [
-                    'label' => 'Special',
-                    'placeholder' => 'Enter the special',
+                    'label' => 'Permissões especiais',
+                    'placeholder' => 'Informe as permissões especiais',
                ],
                'fieldset' => [
-                    'label' => 'Permissions',
-                    'placeholder' => 'Enter the permissions',
+                    'label' => 'Permissões',
+                    'placeholder' => 'Informe as permissões',
                ],
 
           ]
@@ -266,20 +267,20 @@ return [
      'permission' => [
           'groups' => [
                'access_groups' => [
-                    'name' => 'Access groups'
+                    'name' => 'Grupos de acesso',
                ],
           ],
      ],
      'columns' => [
           'permission' => [
-               'access_groups'=>'Access groups',
-               'name' => 'Name',
+               'access_groups'=>'Grupos de acesso',
+               'name' => 'Nome',
                'slug' => 'Slug',
-               'description' => 'Description',
+               'description' => 'Descrição',
                'status' => 'Status',
-               'created_at' => 'Created at',
-               'updated_at' => 'Updated at',
-               'deleted_at' => 'Deleted at',
+               'created_at' => 'Criado em',
+               'updated_at' => 'Atualizado em',
+               'deleted_at' => 'Deletado em',
           ],
      ]
 ];
