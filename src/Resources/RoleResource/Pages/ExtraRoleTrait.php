@@ -20,8 +20,7 @@ trait ExtraRoleTrait
                 $extras = app('App\Core\Helpers\RoleHelper')->getExtrafileds($record);
                 foreach ($extras as $extra) {
                     $content =   Section::make(data_get($extra, 'name'))
-                        ->description(data_get($extra, 'description'))
-                        ->relationship(data_get($extra, 'relationship'))
+                        ->description(data_get($extra, 'description')) 
                         ->collapsed(data_get($extra, 'collapsed', false))
                         ->schema(function () use ($extra) {
                             $contents_ = [];
