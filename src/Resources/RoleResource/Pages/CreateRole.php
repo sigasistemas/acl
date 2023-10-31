@@ -53,7 +53,8 @@ class CreateRole extends CreateRecord
                     ->columnSpanFull(),
                 static::getStatusFormRadioField(),
                 Textarea::make('description')
-                    ->label(__('acl::role.forms.description.label'))
+                    ->label(__('acl::acl.forms.role.description.label'))
+                    ->placeholder(__('acl::acl.forms.role.description.placeholder'))
                     ->columnSpanFull(),
             ]);
     }
