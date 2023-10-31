@@ -61,6 +61,8 @@ class EditRole extends EditRecord
             ]))
             ->inline();
 
+        $cantents = $this->getExtraFieldsSchemaForm($this->record, $cantents);
+
         $cantents[] =    static::getStatusFormRadioField();
 
         $cantents[] =    Textarea::make('description')
@@ -70,7 +72,7 @@ class EditRole extends EditRecord
 
 
         return $form
-            ->schema($this->getExtraFieldsSchemaForm($this->record, $cantents));
+            ->schema($cantents);
     }
 
     protected function getHeaderActions(): array
