@@ -12,6 +12,7 @@ use Callcocam\Acl\Resources\RoleResource;
 use Callcocam\Acl\Traits\HasStatusColumn;
 use Filament\Actions;
 use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -35,7 +36,7 @@ class CreateRole extends CreateRecord
                     ->label(__('acl::acl.forms.role.name.label'))
                     ->placeholder(__('acl::acl.forms.role.name.placeholder'))
                     ->required(config('acl.forms.role.name.required', true))
-                    ->maxLength(config('acl.forms.role.name.maxlength', 255)) ->live()
+                    ->maxLength(config('acl.forms.role.name.maxlength', 255))->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
                 TextInput::make('slug')
                     ->label(__('acl::acl.forms.role.slug.label'))
@@ -58,4 +59,6 @@ class CreateRole extends CreateRecord
                     ->columnSpanFull(),
             ]);
     }
+
+   
 }

@@ -22,48 +22,55 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditRole extends EditRecord
 {
-    use HasStatusColumn;
+    use HasStatusColumn, ExtraRoleTrait;
 
     protected static string $resource = RoleResource::class;
 
     public  function form(Form $form): Form
     {
-        return $form
+
+        $cantents[] =   TextInput::make('name')
+            ->label(__('acl::acl.forms.role.name.label'))
+            ->placeholder(__('acl::acl.forms.role.name.placeholder'))
+            ->required(config('acl.forms.role.name.required', true))
+            ->maxLength(config('acl.forms.role.name.maxlength', 255));
+
+        $cantents[] =    TextInput::make('slug')
+            ->label(__('acl::acl.forms.role.slug.label'))
+            ->placeholder(__('acl::acl.forms.role.slug.placeholder'))
+            ->readOnly(config('acl.forms.role.slug.readonly', true))
+            ->required(config('acl.forms.role.slug.required', true))
+            ->maxLength(config('acl.forms.role.slug.maxlength', 255));
+
+        $cantents[] =    Fieldset::make(__('acl::acl.forms.role.fieldset.label'))
+            ->columnSpanFull()
             ->schema([
-                TextInput::make('name')
-                    ->label(__('acl::acl.forms.role.name.label'))
-                    ->placeholder(__('acl::acl.forms.role.name.placeholder'))
-                    ->required(config('acl.forms.role.name.required', true))
-                    ->maxLength(config('acl.forms.role.name.maxlength', 255)),
-                TextInput::make('slug')
-                    ->label(__('acl::acl.forms.role.slug.label'))
-                    ->placeholder(__('acl::acl.forms.role.slug.placeholder'))
-                    ->readOnly(config('acl.forms.role.slug.readonly', true))
-                    ->required(config('acl.forms.role.slug.required', true))
-                    ->maxLength(config('acl.forms.role.slug.maxlength', 255)),
-                Fieldset::make(__('acl::acl.forms.role.fieldset.label'))
+                CheckboxList::make('permissions')
+                    ->relationship('permissions', 'name')
+                    ->bulkToggleable()
+                    ->searchable()->label('Permissões')
+                    ->helperText('Selecione as permissões para este Accesso')
                     ->columnSpanFull()
-                    ->schema([
-                        CheckboxList::make('permissions')
-                            ->relationship('permissions', 'name')
-                            ->bulkToggleable()
-                            ->searchable()->label('Permissões')
-                            ->helperText('Selecione as permissões para este Accesso')
-                            ->columnSpanFull()
-                    ])->label(__('acl::acl.forms.role.fieldset.label')),
-                Radio::make('special')
-                    ->label(__('acl::acl.forms.role.special.label'))
-                    ->options(config('acl.forms.role.special.options', [
-                        'all-access' => 'Acesso Total',
-                        'no-access' => 'Nenhum Acesso',
-                    ]))
-                    ->inline(),
-                static::getStatusFormRadioField(),
-                Textarea::make('description')
-                    ->label(__('acl::acl.forms.role.description.label'))
-                    ->placeholder(__('acl::acl.forms.role.description.placeholder'))
-                    ->columnSpanFull(),
-            ]);
+            ])->label(__('acl::acl.forms.role.fieldset.label'));
+
+        $cantents[] =    Radio::make('special')
+            ->label(__('acl::acl.forms.role.special.label'))
+            ->options(config('acl.forms.role.special.options', [
+                'all-access' => 'Acesso Total',
+                'no-access' => 'Nenhum Acesso',
+            ]))
+            ->inline();
+
+        $cantents[] =    static::getStatusFormRadioField();
+
+        $cantents[] =    Textarea::make('description')
+            ->label(__('acl::acl.forms.role.description.label'))
+            ->placeholder(__('acl::acl.forms.role.description.placeholder'))
+            ->columnSpanFull();
+
+
+        return $form
+            ->schema($this->getExtraFieldsSchemaForm($this->record, $cantents));
     }
 
     protected function getHeaderActions(): array
