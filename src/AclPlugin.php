@@ -9,8 +9,7 @@
 namespace Callcocam\Acl;
 
 use Filament\Contracts\Plugin;
-use Filament\Panel;
-use Filament\Resources\Resource;
+use Filament\Panel; 
 
 class AclPlugin implements Plugin
 {
