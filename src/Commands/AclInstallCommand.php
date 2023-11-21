@@ -40,11 +40,11 @@ class AclInstallCommand extends Command
 
         $this->call('migrate');
 
-        if ($this->confirm(trans('acl.do-you-want-to-create-roles'))) {
+        if ($this->confirm(__('acl::acl.do-you-want-to-create-roles'))) {
             $this->createRoles();
         }
 
-        if ($this->confirm(trans('acl.do-you-want-to-create-permissions'))) {
+        if ($this->confirm(trans('acl::acl.do-you-want-to-create-permissions'))) {
             $this->createPermissions();
         }
 
@@ -54,10 +54,10 @@ class AclInstallCommand extends Command
 
     protected function createRoles()
     {
-        $name = $this->ask('What is the name of the super admin role?', 'Super Admin');
-        $slug = $this->ask('What is the slug of the super admin role?', 'super-admin');
-        $allAccess = $this->ask('What is the special of the super admin role?', 'all-access');
-        $description = $this->ask('What is the description of the super admin role?', 'Super Administrador do sistema');
+        $name = $this->ask('Qual é o nome da função de super administrador?', 'Super Admin');
+        $slug = $this->ask('Qual é o slug da função de super administrador?', 'super-admin');
+        $allAccess = $this->ask('Qual é o nível de acesso especial da função de super administrador?', 'all-access');
+        $description = $this->ask('Qual é a descrição da função de super administrador?', 'Super Administrador do sistema');
 
         if ($role = Role::where('slug', $slug)->first()) {
             $this->info(sprintf('Role `%s` already exists.', $slug)); 
@@ -71,61 +71,61 @@ class AclInstallCommand extends Command
         }
 
         if (User::count()) {
-            $user = $this->choice('Select a user to be super admin', User::pluck('name', 'id')->toArray());
+            $user = $this->choice('Selecione um usuário para ser super administrador', User::pluck('name', 'id')->toArray());
             if ($user) { 
                 $role->users()->sync(User::query()->whereName($user)->first());
             }
         } else {
 
-            if ($this->confirm('Do you want to create a super admin user?')) {
-                $name = $this->ask('What is the name of the super admin user?', 'Super Admin');
-                $email = $this->ask('What is the email of the super admin user?', 'super-admin@example.com');
+            if ($this->confirm('Deseja criar um usuário super administrador?')) {
+                $name = $this->ask('Qual é o nome do usuário super administrador?', 'Super Admin');
+                $email = $this->ask('Qual é o e-mail do usuário super administrador?', 'super-admin@example.com');
                 $user =  User::factory()->create([
                     'name' => $name,
                     'email' => $email,
                 ]);
                 $role->users()->sync($user);
-                $this->info(sprintf('Super admin user `%s` created successfully.', $email));
+                $this->info(sprintf('Usuário super administrador `%s` criado com sucesso.', $email));
             }
 
-            $name = $this->ask('What is the name of the admin role?', 'Admin');
-            $slug = $this->ask('What is the slug of the admin role?', 'admin');
-            $description = $this->ask('What is the description of the admin role?', 'Administrador do sistema');
+            $name = $this->ask('Qual é o nome da função de administrador?', 'Admin');
+            $slug = $this->ask('Qual é o slug da função de administrador?', 'admin');
+            $description = $this->ask('Qual é a descrição da função de administrador?', 'Administrador do sistema');
             $role = Role::create([
                 'name' => $name,
                 'slug' => $slug,
                 'description' => $description,
             ]);
 
-            if ($this->confirm('Do you want to create a admin user?')) {
-                $name = $this->ask('What is the name of the admin user?', 'Admin');
-                $email = $this->ask('What is the email of the admin user?', 'admin@example.com');
+            if ($this->confirm('Deseja criar um usuário administrador?')) {
+                $name = $this->ask('Nome do usuário?', 'Admin');
+                $email = $this->ask('E-Mail para o usuário?', 'admin@example.com');
                 $user =  User::factory()->create([
                     'name' => $name,
                     'email' => $email
                 ]);
                 $role->users()->sync($user);
-                $this->info(sprintf('Admin user `%s` created successfully.', $email));
+                $this->info(sprintf('Usuário administrador `%s` criado com sucesso.', $email));
             }
 
-            $name = $this->ask('What is the name of the user role?', 'User');
-            $slug = $this->ask('What is the slug of the user role?', 'user');
-            $description = $this->ask('What is the description of the user role?', 'Usuário do sistema');
+            $name = $this->ask('Qual é o nome da função de usuário?', 'Usuário');
+            $slug = $this->ask('Qual é o slug da função de usuário?', 'user');
+            $description = $this->ask('Qual é a descrição da função de usuário?', 'Usuário do sistema');
             $role = Role::create([
                 'name' => $name,
                 'slug' => $slug,
                 'description' => $description,
             ]);
 
-            if ($this->confirm('Do you want to create a user?')) {
-                $name = $this->ask('What is the name of the user?', 'User');
-                $email = $this->ask('What is the email of the user?', 'user@example.com');
+            if ($this->confirm('Deseja criar um usuário?')) {
+                $name = $this->ask('Qual é o nome do usuário?', 'Usuário');
+                $email = $this->ask('Qual é o e-mail do usuário?', 'user@example.com');
                 $user = User::factory()->create([
                     'name' => $name,
                     'email' => $email
                 ]);
                 $role->users()->sync($user);
-                $this->info('User user `user@example.com` created successfully.');
+                $this->info('Usuário `user@example.com` criado com sucesso.');
             }
         }
     }
