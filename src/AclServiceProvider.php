@@ -6,6 +6,7 @@
 */
 namespace Callcocam\Acl;
 
+use Callcocam\Acl\Commands\AclAddRuleCommand;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
@@ -137,7 +138,8 @@ class AclServiceProvider extends PackageServiceProvider
             AclCommand::class,
             AclGeneratePermissionsCommand::class,
             AclInstallCommand::class,
-            AclPolicyCommand::class
+            AclPolicyCommand::class,
+            AclAddRuleCommand::class,
         ];
     }
 
