@@ -56,6 +56,7 @@ class LoadRouterHelper
                         $permissionFormated = Str::of($permission)->lower()
                             ->replace("pages.", "")
                             ->replace("resources.", "")
+                            ->replace("admin", config('acl.route.prefix', 'admin'))
                             ->replace('filament.', '')->__toString();
                         if (!app(config('acl.models.permission', Permission::class))->query()->where('slug', $permissionFormated)->count()) {
                             $description = Str::of($permissionFormated)->lower()->replace(".", " ")->__toString();

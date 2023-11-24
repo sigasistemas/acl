@@ -32,12 +32,13 @@ class AclGeneratePermissionsCommand extends Command
      */
     public function handle()
     {
-        if ($this->confirm('Do you want to generate permissions for the Filament Acl package?')) {
-            $delete = $this->confirm('Do you want to delete all existing permissions?'); 
+        //Deseja gerar permissões para o pacote Filament Acl?
+        if ($this->confirm('Deseja gerar permissões para o pacote Filament Acl??')) {
+            $delete = $this->confirm('Você deseja excluir todas as permissões existentes?'); 
             LoadRouterHelper::make()->save($delete );
-            $this->info('Permissions generated successfully.');
+            $this->info('Permissões geradas com sucesso.');
             return;
         }
-        $this->info('Permissions not generated.');
+        $this->info('Permissões não geradas.');
     }
 }

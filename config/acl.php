@@ -121,4 +121,10 @@ return [
 
     'keyType' => 'string',
 
+    'connection' => 'mysql',
+    
+    'route' => [
+        'prefix' => 'admin', 
+    ],
+
 ];
