@@ -27,6 +27,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class UserResource extends Resource
 {
@@ -51,6 +52,40 @@ class UserResource extends Resource
     public static function getModel(): string
     {
         return config('acl.models.user', User::class);
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return config('acl.navigation.user.group', static::$navigationGroup);
+    }
+
+    public static function getNavigationIcon(): ?string
+    {
+        return config('acl.navigation.user.icon', static::$navigationIcon);
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return static::$navigationLabel ?? config('acl.navigation.user.label', Str::headline(static::getPluralModelLabel()));
+    }
+
+
+    public static function getNavigationBadge(): ?string
+    {
+        return config('acl.navigation.user.badge', null);
+    }
+
+    /**
+     * @return string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | null
+     */
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return config('acl.navigation.user.badge_color', null);
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return config('acl.navigation.user.sort', static::$navigationSort);
     }
 
     public static function table(Table $table): Table

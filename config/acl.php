@@ -122,9 +122,34 @@ return [
     'keyType' => 'string',
 
     'connection' => 'mysql',
-    
+
     'route' => [
         'prefix' => 'admin', 
     ],
-
+    // 'navigation' => [
+    //     'role' => [
+    //         'group' => "Operacional",
+    //         'icon' => null,
+    //         'label' => 'Controle de Acesso',
+    //         'badge' => null,
+    //     ],
+    //     'user' => [
+    //         'group' => "Operacional",
+    //         'icon' => null,
+    //         'label' => 'Usuários',
+    //         'badge' => null,
+    //     ],
+    //     'access_group' => [
+    //         'group' => "Operacional",
+    //         'icon' => null,
+    //         'label' => 'Grupos de Acesso',
+    //         'badge' => null,
+    //     ],
+    //     'permission' => [
+    //         'group' => "Operacional",
+    //         'icon' => null,
+    //         'label' => 'Permissões',
+    //         'badge' => null,
+    //     ],
+    // ],
 ];
