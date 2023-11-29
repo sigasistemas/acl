@@ -19,7 +19,10 @@ class AbstractAclModel extends Model
 
     public function __construct(array $attributes = [])
     {
-        $this->connection = config('acl.connection', 'mysql');
+        if($connection = config('acl.connection', 'mysql')){
+
+            $this->connection = $connection;
+        } 
         
         $this->incrementing = config('acl.incrementing', true);
 
