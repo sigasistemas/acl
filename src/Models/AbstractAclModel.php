@@ -21,7 +21,7 @@ class AbstractAclModel extends Model
     {
         if($connection = config('acl.connection', 'mysql')){
 
-            $this->connection = $connection;
+            // $this->connection = $connection;
         } 
         
         $this->incrementing = config('acl.incrementing', true);
