@@ -1,38 +1,22 @@
 <?php
+
 /**
-* Created by Claudio Campos.
-* User: callcocam@gmail.com, contato@sigasmart.com.br
-* https://www.sigasmart.com.br
-*/
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com, contato@sigasmart.com.br
+ * https://www.sigasmart.com.br
+ */
+
 namespace Callcocam\Acl\Http\Controllers;
 
-use Illuminate\Contracts\Auth\StatefulGuard;
-use Illuminate\Routing\Controller;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Filament\Facades\Filament; 
+use Illuminate\Routing\Controller; 
+use Illuminate\Http\Request; 
+use Illuminate\Support\Facades\Route;
 
 class AuthController extends Controller
 {
-
-
-    /**
-     * The guard implementation.
-     *
-     * @var \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected $guard;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
-     * @return void
-     */
-    public function __construct(StatefulGuard $guard)
-    {
-        $this->guard = $guard;
-    }
+ 
 
     /**
      * Attempt to authenticate a new session.
@@ -41,9 +25,18 @@ class AuthController extends Controller
      * @param  int  $user
      * @return mixed
      */
-    public function store(Request $request, $model)
+    public function store($model)
     {
-        $this->guard->login($this->guard->onceUsingId($model), $request->boolean('remember'));
+        $user = User::where('id', $model)->first();
+        if (!$user) {
+            return response([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        } 
+        if(Route::has('force.login.email')){
+            return redirect()->route('force.login.email', ['email'=>$user->email]);
+        }
+        Filament::auth()->loginUsingId($user->id);
 
         return redirect()->intended();
     }
