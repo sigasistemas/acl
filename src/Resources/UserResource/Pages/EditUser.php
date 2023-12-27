@@ -104,7 +104,9 @@ class EditUser extends EditRecord
                             'md' => 4,
                         ]))
                         ->required(config('acl.forms.user.status.required', true)),
-                    Fieldset::make(__('acl::acl.forms.user.roles.label'))->schema([
+                    Fieldset::make(__('acl::acl.forms.user.roles.label'))
+                    ->visible(auth()->user()->hasAnyRole(config('acl.forms.user.roles.visible',  'super-admin')))
+                    ->schema([
                         CheckboxList::make('roles')
                             ->relationship('roles', 'name')
                             ->bulkToggleable(config('acl.forms.user.roles.bulkToggleable', true))
