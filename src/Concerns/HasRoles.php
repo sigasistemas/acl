@@ -81,6 +81,17 @@ trait HasRoles
         return true;
     }
 
+    public function hasAnyRoles(array $roles): bool
+    {
+        foreach ($roles as $role) {
+            if ($this->hasRole($role)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
     public function hasRoles(): bool
     {
         return (bool)$this->roles->count();
