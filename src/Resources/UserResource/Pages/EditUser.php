@@ -37,9 +37,9 @@ class EditUser extends EditRecord
                 Section::make()->schema([
                     TextInput::make('name')
                         ->label(__('acl::acl.forms.user.name.label'))
-                        ->placeholder(__('acl::acl.forms.user.name.placeholder')) 
+                        ->placeholder(__('acl::acl.forms.user.name.placeholder'))
                         ->columnSpan(config('acl.forms.user.name.columnSpan', [
-                            'md' => 4,
+                            'md' => 7,
                         ]))
                         ->required(config('acl.forms.user.name.required', true))
                         ->hidden(config('acl.forms.user.name.hidden', false))
@@ -50,7 +50,7 @@ class EditUser extends EditRecord
                         ->label(__('acl::acl.forms.user.email.label'))
                         ->placeholder(__('acl::acl.forms.user.email.placeholder'))
                         ->columnSpan(config('acl.forms.user.email.columnSpan', [
-                            'md' => 3,
+                            'md' => 5,
                         ]))
                         ->email()
                         ->required(config('acl.forms.user.email.required', true))
@@ -78,6 +78,7 @@ class EditUser extends EditRecord
                         ])),
                     Radio::make('genre')
                         ->label(__('acl::acl.forms.user.genre.label'))
+                        ->visible(config('acl.forms.user.genre.visible', false))
                         ->inline()
                         ->options(config('acl.forms.user.genre.options', [
                             'masculino' => 'Masculino',
@@ -88,6 +89,7 @@ class EditUser extends EditRecord
                             'md' => 5,
                         ])),
                     Toggle::make('email_verified')
+                        ->visible(config('acl.forms.user.email_verified.visible', false))
                         ->label(__('acl::acl.forms.user.email_verified.label'))
                         ->helperText(__('acl::acl.forms.user.email_verified.helpText'))
                         ->columnSpan(config('acl.forms.user.email_verified.columnSpan', [
@@ -95,26 +97,34 @@ class EditUser extends EditRecord
                         ])),
 
                     Radio::make('status')
-                        ->inline()
+                        ->visible(config('acl.forms.user.status.visible', true))
                         ->options(config('acl.forms.user.status.options', [
                             'published' => 'Ativo',
                             'draft' => 'Inativo',
                         ]))
                         ->columnSpan(config('acl.forms.user.status.columnSpan', [
-                            'md' => 4,
+                            'md' => 12,
                         ]))
                         ->required(config('acl.forms.user.status.required', true)),
                     Fieldset::make(__('acl::acl.forms.user.roles.label'))
-                    ->visible(auth()->user()->hasAnyRole(config('acl.forms.user.roles.visible',  'super-admin')))
-                    ->schema([
-                        CheckboxList::make('roles')
-                            ->relationship('roles', 'name')
-                            ->bulkToggleable(config('acl.forms.user.roles.bulkToggleable', true))
-                            ->searchable(config('acl.forms.user.roles.searchable', true))
-                            ->label(config('acl.forms.user.roles.label', 'Roles'))
-                            ->helperText(config('acl.forms.user.roles.helperText', 'Select roles for this user.'))
-                            ->columnSpanFull(),
-                    ])->columnSpanFull(),
+                        ->visible(function ($record) {
+                            if ($record->isAdmin()) return true;
+
+                            $access = config('acl.forms.user.roles.visible',  'super-admin');
+                            if (is_array($access)) {
+                                return auth()->user()->hasAnyRoles($access);
+                            }
+                            return auth()->user()->hasAnyRole($access);
+                        })
+                        ->schema([
+                            CheckboxList::make('roles')
+                                ->relationship('roles', 'name')
+                                ->bulkToggleable(config('acl.forms.user.roles.bulkToggleable', true))
+                                ->searchable(config('acl.forms.user.roles.searchable', true))
+                                ->label(config('acl.forms.user.roles.label', 'Roles'))
+                                ->helperText(config('acl.forms.user.roles.helperText', 'Select roles for this user.'))
+                                ->columnSpanFull(),
+                        ])->columnSpanFull(),
 
                     Fieldset::make(__('acl::acl.forms.user.data.access.label'))->schema([
                         ...static::getFieldPasswordForUpdateForm()
