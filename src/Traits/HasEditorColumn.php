@@ -24,6 +24,7 @@ trait HasEditorColumn
     public static function getTextareaFormField(): Textarea
     {
         return Textarea::make(static::getEditorColumn())
+            ->visible(config('acl.forms.user.editor.visible', true))
             ->label(static::getEditorColumnLabel())
             ->columnSpanFull();
     }
@@ -31,6 +32,7 @@ trait HasEditorColumn
     public static function getEditorFormField(bool $required = false): RichEditor
     {
         return RichEditor::make(static::getEditorColumn())
+            ->visible(config('acl.forms.user.editor.visible', true))
             ->label(static::getEditorColumnLabel())
             ->columnSpanFull()
             ->required($required);
