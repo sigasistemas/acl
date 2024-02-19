@@ -35,11 +35,21 @@ class EditUser extends EditRecord
         return $form
             ->schema([
                 Section::make()->schema([
+                   Select::make('type')
+                    ->label(__('acl::acl.forms.user.type.label'))
+                    ->options(config('acl.resources.user.type.options', [
+                        'user' => 'User',
+                        'client' => 'Client',
+                    ]))
+                    ->columnSpan(config('acl.resources.user.type.columnSpan', [
+                        'md' => 2,
+                    ]))
+                    ->required(config('acl.resources.user.type.required', true)),
                     TextInput::make('name')
                         ->label(__('acl::acl.forms.user.name.label'))
                         ->placeholder(__('acl::acl.forms.user.name.placeholder'))
                         ->columnSpan(config('acl.forms.user.name.columnSpan', [
-                            'md' => 7,
+                            'md' => 6,
                         ]))
                         ->required(config('acl.forms.user.name.required', true))
                         ->hidden(config('acl.forms.user.name.hidden', false))
@@ -50,7 +60,7 @@ class EditUser extends EditRecord
                         ->label(__('acl::acl.forms.user.email.label'))
                         ->placeholder(__('acl::acl.forms.user.email.placeholder'))
                         ->columnSpan(config('acl.forms.user.email.columnSpan', [
-                            'md' => 5,
+                            'md' => 4,
                         ]))
                         ->email()
                         ->required(config('acl.forms.user.email.required', true))
